@@ -72,17 +72,51 @@ async def get_patient(patient_id: str):
           "detail": patient
         }
       else:
-        rollback
-        return {
-          "status_code": 1002,
-          "detail": "Patient data integrity compromised"
-        }
+        #Rollback
+        patient = await patients_backup.find_one({"_id": patient_id})
+        data = {}
+        data["core_data"] = patient.get("patient_details")
+        last_update = patient.get("updated_on")
+        result = await update_patient(patients, patient_id, data, upsert=False, last_update=last_update)
+        if result.modified_count > 0:
+          patient["_id"] = str(patient["_id"])
+          return {
+            "status_code": 2001,
+            "alert": "The patient data integrity has been compromised but successfully updated from backup database",
+            "detail": patient
+          }
+        else:
+          return {
+            "status_code": 1002,
+            "detail": "Patient data integrity compromised. The patient data with this ID cannot been reverted back from backup database"
+          }
 
     else:
-      return {
-        "status_code": 1001,
-        "detail": "No patient with this id"
-      }
+      patient = await patients_backup.find_one({"_id": patient_id})
+      if patient:
+        #Rollback
+
+        data = {}
+        data["core_data"] = patient.get("patient_details")
+        last_update = patient.get("updated_on")
+        result = await update_patient(patients, patient_id, data, upsert=True, last_update=last_update)
+        if result.upserted_id:
+          patient["_id"] = str(patient["_id"])
+          return {
+            "status_code": 2002,
+            "alert": "The patient data integrity has been compromised. The record data has been deleted from the principal database, but successfully reverted back from backup database",
+            "detail": patient
+          }
+        else:
+          return {
+            "status_code": 1003,
+            "detail": "Patient data integrity compromised. The patient data with this ID cannot been reverted back from backup database"
+          }
+      else:
+        return {
+          "status_code": 1001,
+          "detail": "No patient with this id"
+        }
 
   except Exception as e:
     print(e)
