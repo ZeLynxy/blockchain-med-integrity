@@ -22,5 +22,5 @@ RUN apt-get update
 RUN apt-get install -y solc
 RUN pip3 install py-solc-x
 WORKDIR /smart-contracts
-#RUN python3.8 deploy.py
+RUN python3.8 deploy.py
 WORKDIR /api
