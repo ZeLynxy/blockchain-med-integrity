@@ -1,0 +1,32 @@
+version: '3'
+
+volumes:
+    mongo_data:
+
+services:
+    blockchain-med-integrity-api:
+      restart: always
+      stdin_open: true
+      tty: true
+      build: .
+      command: uvicorn main:app --host 0.0.0.0 --port 7777 --debug --reload 
+      volumes:
+        - ./api:/api
+        - ./smart-contracts:/smart-contracts
+      ports:
+        - "7777:7777"
+      depends_on:
+        - blockchain-med-integrity-db
+
+    
+    blockchain-med-integrity-db:
+      restart: always
+      image: mongo
+      command: mongod --port 27019
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: "lupin"
+        MONGO_INITDB_ROOT_PASSWORD: "BNPH.9z5g^8z6Pr4"
+      volumes:
+        - mongo_data:/data/db
+      ports:
+        - "27019:27019"

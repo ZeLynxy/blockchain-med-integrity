@@ -1,0 +1,7 @@
+fastapi[all]
+motor
+pydantic[email]
+bcrypt
+pyOpenSSL
+python-multipart
+web3
