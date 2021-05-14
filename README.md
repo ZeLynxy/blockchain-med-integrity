@@ -1,4 +1,6 @@
 # blockchain-med-integrity
+
+## Ensuring patient data integrity using Blockchain
 For our tests, we use a local version of the Ethereum blockchain. This can be provided by Ganache. In our case, for purpose of visualization we installed the GUI version (instead of maybe having the CLI version). The following screenshot shows our contract creation transaction on the blockchain.
 
 ![Contract deployed on Ganache](https://user-images.githubusercontent.com/28572130/118322543-95557d00-b4ff-11eb-8757-40f4ec6afa53.png)
@@ -14,7 +16,7 @@ This is repercussed on the blockchain as a new transaction happened. In fact, wh
 ![Screenshot from 2021-05-14 18-33-37](https://user-images.githubusercontent.com/28572130/118322675-cd5cc000-b4ff-11eb-9fb3-b546c0c74c72.png)
 
 
-Now, let's imagine that an attacker gets a direct access to our database by an unknown means and decide to alter patient data (the following screenshot shows data tampering with Robot3T knowing that our data is stored in a MongoDB database). Let's say for instance the attacker wants to undermine a patient reputation. In order to do so, he decides to rek=flect in the DB that the given patient has AIDS. It goes as follow:
+Now, let's imagine that an attacker gets a direct access to our database by an unknown means and decide to alter patient data (the following screenshot shows data tampering with Robot3T knowing that our data is stored in a MongoDB database). Let's say for instance the attacker wants to undermine a patient reputation. In order to do so, he decides to reflect in the DB that the given patient has AIDS. It goes as follow:
 
 ![2](https://user-images.githubusercontent.com/28572130/118322657-c766df00-b4ff-11eb-9d63-7183c03c3ee5.png)
 
