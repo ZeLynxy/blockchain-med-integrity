@@ -19,3 +19,13 @@ databases:
     PASSWORD: '.m=w8HAn4@MYKJqy'
     HOST: 'blockchain-med-integrity-backup-db'
     PORT: '27020'
+
+mail:
+  MAIL_USERNAME: "xxxxxxxxxxxxxx"
+  MAIL_PASSWORD: "xxxxxxxxxxxxxx"
+  MAIL_FROM: "xxxxxxxxxxxxxx"
+  MAIL_FROM_NAME: "BitHealth.io"
+  MAIL_PORT: 465
+  MAIL_SERVER: "smtp.gmail.com"
+  MAIL_TLS: False
+  MAIL_SSL: True

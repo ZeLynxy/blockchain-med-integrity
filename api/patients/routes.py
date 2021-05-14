@@ -1,10 +1,10 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, BackgroundTasks
 from bson.objectid import ObjectId
 from config.config import DB, BACK_UP_DB
 from utils import *
 import main
 import datetime
-from .utils import update_patient
+from .utils import update_patient, alert_admin
 
 patients_router = APIRouter()
 patients = DB.patients
@@ -59,7 +59,7 @@ async def edit_patient(data: dict):
 
 
 @patients_router.get("/{patient_id}")
-async def get_patient(patient_id: str):
+async def get_patient(patient_id: str, background_tasks: BackgroundTasks):
   
   try:
     patient_id = ObjectId(patient_id)
@@ -73,6 +73,8 @@ async def get_patient(patient_id: str):
         }
       else:
         #Rollback
+        #Inform admin
+        background_tasks.add_task(alert_admin, ["xxxxxxxxxxxxxx"], str(patient_id))
         patient = await patients_backup.find_one({"_id": patient_id})
         data = {}
         data["core_data"] = patient.get("patient_details")
@@ -95,7 +97,8 @@ async def get_patient(patient_id: str):
       patient = await patients_backup.find_one({"_id": patient_id})
       if patient:
         #Rollback
-
+        #Inform admin
+        background_tasks.add_task(alert_admin, ["xxxxxxxxxxxxxx"], str(patient_id))
         data = {}
         data["core_data"] = patient.get("patient_details")
         last_update = patient.get("updated_on")

@@ -1,6 +1,6 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from .utils import load_config
-
+from fastapi_mail import ConnectionConfig
 
 CONF = load_config()
 
@@ -35,3 +35,17 @@ BACK_UP_DB = BACKUP_DB_CLIENT[CONF.get("databases")["backup"]["NAME"]]
 def close_backup_db_client():
     BACKUP_DB_CLIENT.close()
 
+
+
+
+############# Email conf ##################
+EMAIL_CONF = ConnectionConfig(
+        MAIL_USERNAME = CONF.get("mail")["MAIL_USERNAME"],
+        MAIL_PASSWORD = CONF.get("mail")["MAIL_PASSWORD"],
+        MAIL_FROM = CONF.get("mail")["MAIL_FROM"],
+        MAIL_FROM_NAME = CONF.get("mail")["MAIL_FROM_NAME"],
+        MAIL_PORT = CONF.get("mail")["MAIL_PORT"],
+        MAIL_SERVER = CONF.get("mail")["MAIL_SERVER"],
+        MAIL_TLS = CONF.get("mail")["MAIL_TLS"] ,
+        MAIL_SSL = CONF.get("mail")["MAIL_SSL"]
+)
