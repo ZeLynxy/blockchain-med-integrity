@@ -10,3 +10,12 @@ databases:
     PASSWORD: 'BNPH.9z5g^8z6Pr4'
     HOST: 'blockchain-med-integrity-db'
     PORT: '27019'
+
+  backup:
+    ENGINE: 'mongodb'
+    DRIVER: 'motor'
+    NAME: 'blockchain_med_integrity_backup_db'
+    USER: 'arsene'
+    PASSWORD: '.m=w8HAn4@MYKJqy'
+    HOST: 'blockchain-med-integrity-backup-db'
+    PORT: '27020'

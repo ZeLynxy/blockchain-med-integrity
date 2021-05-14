@@ -2,6 +2,7 @@ version: '3'
 
 volumes:
     mongo_data:
+    mongo_backup_data:
 
 services:
     blockchain-med-integrity-api:
@@ -30,3 +31,15 @@ services:
         - mongo_data:/data/db
       ports:
         - "27019:27019"
+
+    blockchain-med-integrity-backup-db:
+      restart: always
+      image: mongo
+      command: mongod --port 27020
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: "arsene"
+        MONGO_INITDB_ROOT_PASSWORD: ".m=w8HAn4@MYKJqy"
+      volumes:
+        - mongo_backup_data:/data/backup_db
+      ports:
+        - "27020:27020"

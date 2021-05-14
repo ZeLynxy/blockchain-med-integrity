@@ -46,5 +46,7 @@ async def app_shutdown():
     """
     App termination.
     """
+    config.close_db_client()
+    config.close_backup_db_client()
     print( "App termination ...")
     
