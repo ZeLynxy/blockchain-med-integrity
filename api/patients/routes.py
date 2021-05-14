@@ -1,9 +1,9 @@
 from fastapi import APIRouter
 from bson.objectid import ObjectId
-import bcrypt
 from config.config import DB
 from utils import *
 import main
+import datetime
 
 patients_router = APIRouter()
 patients = DB.patients
@@ -19,11 +19,16 @@ async def edit_patient(data: dict):
                                         },
                                         {
                                           "$set": {
-                                            "patient_details": data.get("core_data")
+                                            "patient_details": data.get("core_data"),
+                                            "updated_on": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                                           }
                                         }
                                       )
     if result.modified_count > 0:
+      patient = await patients.find_one({"_id": patient_id})
+      patient["_id"] = str(patient["_id"])
+      receipt = main.med_data_integrity_contract_bridge.write_patient_data(patient["_id"], hashData(patient))
+      print(receipt)
       return {
         "status_code": 2000,
         "detail": "Patient information  is successfully modified"
@@ -48,10 +53,17 @@ async def get_patient(patient_id: str):
     patient =  await patients.find_one({"_id": patient_id})
     if patient:
       patient["_id"] = str(patient["_id"])
-      return {
-        "status_code": 2000,
-        "detail": patient
-      }
+      if not main.med_data_integrity_contract_bridge.integrity_is_compromised(patient.get("_id"), hashData(patient)):
+        return {
+          "status_code": 2000,
+          "detail": patient
+        }
+      else:
+        return {
+          "status_code": 1002,
+          "detail": "Patient data integrity compromised"
+        }
+
     else:
       return {
         "status_code": 1001,
@@ -59,6 +71,7 @@ async def get_patient(patient_id: str):
       }
 
   except Exception as e:
+    print(e)
     return {
         "status_code": 1000,
         "detail": "Invalid patient id"

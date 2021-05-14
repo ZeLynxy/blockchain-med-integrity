@@ -3,7 +3,7 @@ import json
 class MedDataIntegrityContractBridge:
     def __init__(self, w3_instance):
         self.w3 = w3_instance
-        with open("../med-data-integrity.sol", "r") as f:
+        with open("../med-data-integrity_contract.json", "r") as f:
             contract_data = json.load(f)
             abi = contract_data["abi"]
             self.contract_address = contract_data["contract_address"]
@@ -15,4 +15,4 @@ class MedDataIntegrityContractBridge:
         return receipt
     
     def integrity_is_compromised(self, patientID, hashData):
-      return self.med_data_integrity_contract.functions.checkIntegrity(patientID, hashData).call()
+      return not self.med_data_integrity_contract.functions.checkIntegrity(patientID, hashData).call()

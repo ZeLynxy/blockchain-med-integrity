@@ -3,13 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from config import config 
 from patients.routes import patients_router
 from web3 import Web3
-#from utils.contract import MedDataIntegrityContractBridge
+from utils.contract_helper import MedDataIntegrityContractBridge
 
 
-#w3 = Web3(Web3.HTTPProvider("http://172.17.0.1:7545"))
-#w3.eth.defaultAccount = w3.eth.accounts[0]
+w3 = Web3(Web3.HTTPProvider("http://172.17.0.1:7545"))
+w3.eth.defaultAccount = w3.eth.accounts[0]
 
-#med_data_integrity_contract_bridge = ChainVoteContractBridge(w3)
+med_data_integrity_contract_bridge = MedDataIntegrityContractBridge(w3)
 
 app = FastAPI()
 
