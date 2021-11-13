@@ -1,6 +1,6 @@
 # blockchain-med-integrity
 
-## Ensuring patient data integrity using Blockchain
+## Ensuring patient data integrity using Blockchain - Class Project ([Project.pdf](https://github.com/ZeLynxy/blockchain-med-integrity/files/7531525/Project.pdf))
 For our tests, we use a local version of the Ethereum blockchain. This can be provided by Ganache. In our case, for purpose of visualization we installed the GUI version (instead of maybe having the CLI version). The following screenshot shows our contract creation transaction on the blockchain.
 
 ![Contract deployed on Ganache](https://user-images.githubusercontent.com/28572130/118322543-95557d00-b4ff-11eb-8757-40f4ec6afa53.png)
